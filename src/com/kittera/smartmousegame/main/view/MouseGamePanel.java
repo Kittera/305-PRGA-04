@@ -30,6 +30,9 @@ public class MouseGamePanel extends KPanel implements ActionListener, ChangeList
       setLayout(new BorderLayout());
       GAME_STATE = stateManager;
       setPreferredSize(new Dimension(625, 475));
+      
+      
+      
       add(new NorthInterfacePanel(GAME_STATE), BorderLayout.NORTH);
       add(new GameDisplayPanel(GAME_STATE), BorderLayout.CENTER);
       add(new SouthInterfacePanel(GAME_STATE), BorderLayout.SOUTH);
