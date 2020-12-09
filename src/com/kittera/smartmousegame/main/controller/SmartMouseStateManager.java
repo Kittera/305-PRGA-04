@@ -25,7 +25,6 @@ public class SmartMouseStateManager {
       ticker.addActionListener(SmartMouseEntities.CAT_3);
       ticker.addActionListener(SmartMouseEntities.CAT_4);
       ticker.addActionListener(SmartMouseEntities.CAT_5);
-      
    }
    
    public void setDebugMode(boolean foo) {
