@@ -3,14 +3,24 @@ package com.kittera.smartmousegame.main.model;
 import java.awt.*;
 
 public enum CellType {
-   PATH, TUNNEL, BUSH, BORDER;
+   PATH, TUNNEL, HEDGE, BORDER, ERROR;
    
-   protected void getBaseColor(Graphics g) {
-      switch (this) {
-         case PATH   -> g.setColor(new Color(0x6F6F6F));
-         case TUNNEL -> g.setColor(new Color(0x894C00));
-         case BUSH   -> g.setColor(new Color(0x009E00));
-         case BORDER -> g.setColor(new Color(0x000000));
-      }
+   protected Color getBaseColor() {
+      return switch (this) {
+         case PATH          -> new Color(0xC4C4C4);
+         case TUNNEL        -> new Color(0x472500);
+         case HEDGE         -> new Color(0x1AA81A);
+         case BORDER, ERROR -> Color.BLACK;
+      };
+   }
+   
+   protected static CellType translateChar(char tileChar) {
+      return switch (tileChar) {
+         case 'B' -> BORDER;
+         case 'P' -> PATH;
+         case 'T' -> TUNNEL;
+         case 'H' -> HEDGE;
+         default  -> ERROR;
+      };
    }
 }
