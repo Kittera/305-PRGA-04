@@ -47,8 +47,10 @@ public abstract class SmartMouseEntity  {
    }
    
    public void reset() {
-      mySpawnTile.register(this);
-      myTile.remove(this);
-      myTile = mySpawnTile;
+      if (myTile != mySpawnTile) {
+         mySpawnTile.register(this);
+         myTile.remove(this);
+         myTile = mySpawnTile;
+      }
    }
 }

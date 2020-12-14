@@ -14,7 +14,6 @@ public class Cheese extends SmartMouseEntity {
    
    public Cheese(MapTile tile, SmartMouseStateManager mgr) {
       super(MY_SPRITE, tile, mgr);
-      mgr.addCheese(mySpawnTile);
       myLayer = 3;
    }
    

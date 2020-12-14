@@ -1,7 +1,10 @@
 package com.kittera.smartmousegame.main.model;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -36,7 +39,7 @@ public class MapTile extends JPanel {
          case TUNNEL -> !(arrivingActor instanceof AbstractCat);
       };
       if (accessGranted) {
-         myInhabitants.add(arrivingActor);
+         if (!myInhabitants.contains(arrivingActor)) myInhabitants.add(arrivingActor);
          myInhabitants.sort(Comparator.comparing(SmartMouseEntity::getLayer));
       }
       repaint();
@@ -54,11 +57,13 @@ public class MapTile extends JPanel {
    }
    
    public int pathCount() {
-      return (
-            (getNeighbor(Directions.NORTH).getType() == CellType.PATH ? 1 : 0) +
-            (getNeighbor(Directions.SOUTH).getType() == CellType.PATH ? 1 : 0) +
-            (getNeighbor(Directions.EAST) .getType() == CellType.PATH ? 1 : 0) +
-            (getNeighbor(Directions.WEST) .getType() == CellType.PATH ? 1 : 0));
+      return (int) List.of(getNeighbor(Directions.NORTH),
+                           getNeighbor(Directions.SOUTH),
+                           getNeighbor(Directions.EAST),
+                           getNeighbor(Directions.WEST))
+                           .stream()
+                           .filter(MapTile::isPath)
+                           .count();
    }
    
    protected MapTile getNeighbor(Directions direction) {
@@ -73,7 +78,13 @@ public class MapTile extends JPanel {
       };
    }
    
-   private CellType getType() { return myType; }
+   protected boolean isPath() {
+      return myType == CellType.PATH;
+   }
+   
+   protected boolean isTunnel() {
+      return myType == CellType.TUNNEL;
+   }
    
    public void clearRegistry() {
       myInhabitants.clear();

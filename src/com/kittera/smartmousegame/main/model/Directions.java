@@ -1,7 +1,5 @@
 package com.kittera.smartmousegame.main.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 public enum Directions {
@@ -14,19 +12,6 @@ public enum Directions {
          case SOUTH  -> WEST;
          case WEST   -> NORTH;
          case CENTER -> pickRandom();
-      };
-   }
-   
-   public static Directions get(Object button, Object[] buttonArr) {
-      ArrayList<Object> moveButtons = new ArrayList<>();
-      Collections.addAll(moveButtons, buttonArr);
-      
-      return switch (moveButtons.indexOf(button)) {
-         case 0  -> NORTH;
-         case 1  -> SOUTH;
-         case 2  -> WEST;
-         case 3  -> EAST;
-         default -> CENTER;
       };
    }
    

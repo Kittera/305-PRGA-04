@@ -16,8 +16,9 @@ public abstract class AbstractCat extends SmartMouseEntity {
       return moved;
    }
    
-   void pounce(SmartMouseEntity mouse) {
+   void pounce(SmartMouseEntity m) {
       stateMgr.mousePounced();
+      ((SmartMouse) m).pounced();
    }
    
    private void mouseCheck() {

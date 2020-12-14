@@ -5,6 +5,8 @@ import static com.kittera.smartmousegame.main.model.SmartMouseActors.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -25,6 +27,14 @@ public class MouseMap {
          for (MapTile tile : row)
             tile.clearRegistry();
       }
+   }
+   
+   protected ArrayList<MapTile> getTiles() {
+      ArrayList<MapTile> allTiles = new ArrayList<>();
+      for (MapTile[] row : mapTileArray) {
+         allTiles.addAll(Arrays.asList(row));
+      }
+      return allTiles;
    }
    
    public int getCols() {
@@ -128,7 +138,7 @@ public class MouseMap {
    
    private void spawnEntity(String entityType, MapTile tile) {
       switch (entityType) {
-         case "C" -> new Cheese(tile, stateMgr);
+         case "C" -> stateMgr.addCheese(tile);
          case "M" -> MOUSE = new SmartMouse(tile, stateMgr);
          case "1" -> CAT_1 = new RandomCat(tile, stateMgr);
          case "2" -> CAT_2 = new ClockwiseCat(tile, stateMgr);

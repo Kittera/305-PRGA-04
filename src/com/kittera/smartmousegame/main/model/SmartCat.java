@@ -9,6 +9,7 @@ public class SmartCat extends AbstractCat {
    public SmartCat(MapTile tile, SmartMouseStateManager mgr) {
       super(MY_SPRITE, tile, mgr);
       myLayer = 1;
+      //TODO init a new timer here to update path with A*
    }
    
    public void move() {

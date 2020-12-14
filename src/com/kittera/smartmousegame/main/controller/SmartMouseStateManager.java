@@ -10,7 +10,6 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SmartMouseStateManager {
    
@@ -35,7 +34,7 @@ public class SmartMouseStateManager {
       cheeseCount   = 0;
       cheeseTiles = new ArrayList<>();
       
-      ticker = new Timer(1000, SmartMouseActors::gameStep);
+      ticker = new Timer(200, SmartMouseActors::gameStep);
       ticker.setInitialDelay(10);
       elapsed = new Timer(1000, this::tick);
    }
@@ -69,6 +68,10 @@ public class SmartMouseStateManager {
    
    public boolean getDebugMode() {
       return isInDebugMode;
+   }
+   
+   public MouseMap getBoard() {
+      return theBoard;
    }
    
    public void intervalChanged(int msPerFrame) {
@@ -140,6 +143,7 @@ public class SmartMouseStateManager {
    
    private void youWin() {
       myCheeseDisplay.setText(" " + cheeseCount + " ");
+      //TODO
    }
    
    private void gameOver() {

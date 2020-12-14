@@ -52,7 +52,7 @@ public class MouseGamePanel extends KPanel {
    
    private static class MoveAction extends AbstractAction implements ActionListener {
       
-      Directions direction;
+      final Directions direction;
       public MoveAction(String name, Directions dir) {
          super(name);
          direction = dir;
@@ -232,7 +232,7 @@ class SouthInterfacePanel extends KPanel {
       fpsLabel.setHorizontalAlignment(SwingConstants.TRAILING);
       fpsLabel.setOpaque(true);
       fpsLabel.setBackground(DARK_PURPLE);
-      slideFPS = new JSlider(1, 10, 1);
+      slideFPS = new JSlider(1, 10, 5);
       slideFPS.addChangeListener(this::rateChanged);
       slideFPS.setMajorTickSpacing(1);
       slideFPS.setMinorTickSpacing(1);
@@ -283,8 +283,7 @@ class SouthInterfacePanel extends KPanel {
       GAME_STATE.intervalChanged(newMS);
       
       if (GAME_STATE.getDebugMode()) {
-         String debugMSG = "Slider is now " + slideFPS.getValue();
-         System.out.println(debugMSG);
+         System.out.println("Slider is now " + slideFPS.getValue());
       }
    }
 }
