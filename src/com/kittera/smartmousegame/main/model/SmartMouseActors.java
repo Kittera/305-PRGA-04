@@ -1,6 +1,5 @@
 package com.kittera.smartmousegame.main.model;
 
-import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,11 +11,8 @@ public class SmartMouseActors {
    protected static SmartCat      CAT_5;
    public    static SmartMouse    MOUSE;
    
-   public static void gameStep(@SuppressWarnings("unused") ActionEvent notUsed) {
-      List.of(CAT_1, CAT_2, CAT_3, CAT_4, CAT_5)
-            .stream()
-            .filter(Objects::nonNull)
-            .forEach(AbstractCat::move);
+   public static List<AbstractCat> getCats() {
+      return List.of(CAT_1, CAT_2, CAT_3, CAT_4, CAT_5);
    }
    
    public static void reset() {

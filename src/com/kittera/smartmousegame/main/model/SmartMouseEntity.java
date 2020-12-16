@@ -30,10 +30,15 @@ public abstract class SmartMouseEntity  {
       }
    }
    
+   public int getLayer() {return myLayer;}
+   
    public Image getSprite(int width, int height) {
       return mySprite.getScaledInstance(width, height, Image.SCALE_DEFAULT);
    }
-   public int getLayer() {return myLayer;}
+   
+   public MapTile getTile() {
+      return myTile;
+   }
    
    public boolean move(Directions direction) {
       MapTile destTile =

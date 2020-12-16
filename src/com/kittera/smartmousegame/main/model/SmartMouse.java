@@ -2,11 +2,14 @@ package com.kittera.smartmousegame.main.model;
 
 import com.kittera.smartmousegame.main.controller.SmartMouseStateManager;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import javax.swing.Timer;
+
+import static com.kittera.smartmousegame.main.model.SmartMouseActors.CAT_5;
 
 public class SmartMouse extends SmartMouseEntity {
    private static final String MY_SPRITE = "Mouse.png";
@@ -20,7 +23,8 @@ public class SmartMouse extends SmartMouseEntity {
    
    public boolean move(Directions direction) {
       boolean moved = super.move(direction);
-      cheeseCheck();
+      if (moved) cheeseCheck();
+      if (moved && CAT_5 != null && !myTile.isTunnel()) CAT_5.refreshPath();
       return moved;
    }
    
@@ -82,5 +86,10 @@ public class SmartMouse extends SmartMouseEntity {
          myTile.remove(this);
          myTile = destTile;
       }
+   }
+   
+   public String toString() {
+      Point loc = myTile.getAddress();
+      return String.format("Mouse at (%d, %d)", loc.x, loc.y);
    }
 }

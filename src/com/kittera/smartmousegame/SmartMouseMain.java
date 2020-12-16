@@ -31,8 +31,6 @@ public class SmartMouseMain {
 }
 /*TODO
    SmartCat AI
-   Respawn Mechanic
    GameOver
    YouWin
-
 */

@@ -87,10 +87,10 @@ class NorthInterfacePanel extends KPanel {
       JButton bStop  = new KButton("Stop");
       JButton bReset = new KButton("Reset");
       bStart.addActionListener(e -> GAME_STATE.startTimer());
-      bStep. addActionListener(SmartMouseActors::gameStep);
+      bStep. addActionListener(e -> GAME_STATE.gameStep());
       bStop. addActionListener(e -> GAME_STATE.stopTimer());
       bReset.addActionListener(e -> GAME_STATE.resetGame());
-      JButton[] buttons = {bStart, bStep, bStop, bReset};
+      JButton[] buttons = {bStart, bStop, bStep, bReset};
       for (JButton e : buttons) {
          e.setPreferredSize(buttonSize);
          middlePane.add(e);

@@ -23,4 +23,14 @@ public enum CellType {
          default  -> ERROR;
       };
    }
+   
+   public String toString() {
+      return switch (this) {
+         case PATH   -> "PATH";
+         case TUNNEL -> "TUNNEL";
+         case HEDGE  -> "HEDGE";
+         case BORDER -> "BORDER";
+         case ERROR  -> "ERROR";
+      };
+   }
 }

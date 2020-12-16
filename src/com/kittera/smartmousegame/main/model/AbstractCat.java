@@ -16,6 +16,13 @@ public abstract class AbstractCat extends SmartMouseEntity {
       return moved;
    }
    
+   public void moveTo(MapTile destTile) {
+      if (destTile != myTile && destTile.register(this)) {
+         myTile.remove(this);
+         myTile = destTile;
+      }
+   }
+   
    void pounce(SmartMouseEntity m) {
       stateMgr.mousePounced();
       ((SmartMouse) m).pounced();

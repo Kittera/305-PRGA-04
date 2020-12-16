@@ -1,15 +1,18 @@
 package com.kittera.smartmousegame.main.controller;
 
+import com.kittera.smartmousegame.main.model.AbstractCat;
 import com.kittera.smartmousegame.main.model.Cheese;
 import com.kittera.smartmousegame.main.model.MapTile;
 import com.kittera.smartmousegame.main.model.MouseMap;
 import com.kittera.smartmousegame.main.model.SmartMouseActors;
 import com.kittera.smartmousegame.main.view.MouseGamePanel;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class SmartMouseStateManager {
    
@@ -34,9 +37,9 @@ public class SmartMouseStateManager {
       cheeseCount   = 0;
       cheeseTiles = new ArrayList<>();
       
-      ticker = new Timer(200, SmartMouseActors::gameStep);
+      ticker = new Timer(200, e -> gameStep());
       ticker.setInitialDelay(10);
-      elapsed = new Timer(1000, this::tick);
+      elapsed = new Timer(1000, e -> tick());
    }
    
    public void addCheese(MapTile tile) {
@@ -126,7 +129,7 @@ public class SmartMouseStateManager {
       if (isInDebugMode) System.out.println("Ticker Timer Stopped.");
    }
    
-   public void tick(@SuppressWarnings("unused") ActionEvent notUsed) {
+   public void tick() {
       secElapsed++;
       int minutes = secElapsed / 60;
       int seconds = secElapsed % 60;
@@ -148,5 +151,12 @@ public class SmartMouseStateManager {
    
    private void gameOver() {
       //TODO
+   }
+   
+   public void gameStep() {
+      SmartMouseActors.getCats()
+            .stream()
+            .filter(Objects::nonNull)
+            .forEach(AbstractCat::move);
    }
 }

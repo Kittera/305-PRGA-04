@@ -147,4 +147,8 @@ public class MouseMap {
          case "5" -> CAT_5 = new SmartCat(tile, stateMgr);
       }
    }
+   
+   public void resetNodes() {
+      getTiles().forEach(MapTile::resetPathNode);
+   }
 }
