@@ -1,7 +1,14 @@
-package com.kittera.smartmousegame.main.model;
+package com.kittera.smartmousegame.main.view;
 
 import com.kittera.smartmousegame.main.controller.SmartMouseStateManager;
-import static com.kittera.smartmousegame.main.model.SmartMouseActors.*;
+import com.kittera.smartmousegame.main.model.*;
+
+import static com.kittera.smartmousegame.main.model.SmartMouseActors.CAT_1;
+import static com.kittera.smartmousegame.main.model.SmartMouseActors.CAT_2;
+import static com.kittera.smartmousegame.main.model.SmartMouseActors.CAT_3;
+import static com.kittera.smartmousegame.main.model.SmartMouseActors.CAT_4;
+import static com.kittera.smartmousegame.main.model.SmartMouseActors.CAT_5;
+import static com.kittera.smartmousegame.main.model.SmartMouseActors.MOUSE;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,11 +17,21 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Acts as the container for all MapTiles in the SMart Mouse Game.
+ * @author Kittera Ashleigh McCloud
+ * @version 0.9
+ */
 public class MouseMap {
    private static MapTile[][] mapTileArray;
    private final Scanner fileScan;
    private final SmartMouseStateManager stateMgr;
    
+   /**
+    * Creates a fresh MouseMap, ready to be populated.
+    * @param inFile file to be read for map generation
+    * @param mgr manager
+    */
    public MouseMap(File inFile, SmartMouseStateManager mgr) {
       fileScan = scan(inFile);
       stateMgr = mgr;
@@ -22,6 +39,9 @@ public class MouseMap {
       start();
    }
    
+   /**
+    * Clears all ENTITIES from the MouseMap's tiles.
+    */
    public void clearBoard() {
       for (MapTile[] row : mapTileArray) {
          for (MapTile tile : row)
@@ -29,7 +49,11 @@ public class MouseMap {
       }
    }
    
-   protected ArrayList<MapTile> getTiles() {
+   /**
+    * Provides a List of all MapTiles on this MouseMap.
+    * @return List of all tiles
+    */
+   public ArrayList<MapTile> getTiles() {
       ArrayList<MapTile> allTiles = new ArrayList<>();
       for (MapTile[] row : mapTileArray) {
          allTiles.addAll(Arrays.asList(row));
@@ -37,14 +61,28 @@ public class MouseMap {
       return allTiles;
    }
    
+   /**
+    * Accessor for board width.
+    * @return board width in columns
+    */
    public int getCols() {
       return mapTileArray[0].length;
    }
    
+   /**
+    * Accessor for board height.
+    * @return board height in rows
+    */
    public int getRows() {
       return mapTileArray.length;
    }
    
+   /**
+    * Accessor for a particular tile on the MouseMap
+    * @param x x coordinate of desired tile
+    * @param y y coordinate of desired tile
+    * @return desire tile
+    */
    public MapTile getTileAt(int x, int y) {
       return mapTileArray[y][x];
    }
@@ -60,7 +98,7 @@ public class MouseMap {
       try {
          return new Scanner(file);
       } catch (FileNotFoundException notThere) {
-         throw new IllegalArgumentException(notThere.getMessage());
+         throw new IllegalArgumentException("Filename specified wouldn't be found.");
       }
    }
    

@@ -1,22 +1,21 @@
 package com.kittera.smartmousegame.main.model;
 
-import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Directory of all actors on the board.
+ */
 public class SmartMouseActors {
-   protected static RandomCat     CAT_1;
-   protected static ClockwiseCat  CAT_2;
-   protected static NorthSouthCat CAT_3;
-   protected static EastWestCat   CAT_4;
-   protected static SmartCat      CAT_5;
-   public    static SmartMouse    MOUSE;
+   public static RandomCat     CAT_1;
+   public static ClockwiseCat  CAT_2;
+   public static NorthSouthCat CAT_3;
+   public static EastWestCat   CAT_4;
+   public static SmartCat      CAT_5;
+   public static SmartMouse    MOUSE;
    
-   public static void gameStep(@SuppressWarnings("unused") ActionEvent notUsed) {
-      List.of(CAT_1, CAT_2, CAT_3, CAT_4, CAT_5)
-            .stream()
-            .filter(Objects::nonNull)
-            .forEach(AbstractCat::move);
+   public static List<AbstractCat> getCats() {
+      return List.of(CAT_1, CAT_2, CAT_3, CAT_4, CAT_5);
    }
    
    public static void reset() {
