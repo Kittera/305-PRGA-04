@@ -1,7 +1,6 @@
 package com.kittera.smartmousegame.main.view;
 
 import com.kittera.smartmousegame.main.controller.SmartMouseStateManager;
-import com.kittera.smartmousegame.main.model.MouseMap;
 
 import javax.swing.*;
 
@@ -21,6 +20,4 @@ public class SmartMouseFrame extends JFrame {
       setLocationRelativeTo(null);
       setVisible(true);
    }
-   
-   
 }

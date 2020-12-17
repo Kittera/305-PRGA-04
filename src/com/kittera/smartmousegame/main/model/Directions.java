@@ -2,9 +2,16 @@ package com.kittera.smartmousegame.main.model;
 
 import java.util.Random;
 
+/**
+ * Enumerates cardinal directions and provides a random chooser mechanism.
+ */
 public enum Directions {
    CENTER, NORTH, EAST, SOUTH, WEST;
    
+   /**
+    * Returns the next cardinal direction clockwise from current.
+    * @return clockwise direction from this one
+    */
    public Directions getCW() {
       return switch (this) {
          case NORTH  -> EAST;
@@ -15,6 +22,10 @@ public enum Directions {
       };
    }
    
+   /**
+    * Picks a random direction.
+    * @return random direction
+    */
    public static Directions pickRandom() {
       Random picker = new Random();
       return switch (picker.nextInt(4)) {

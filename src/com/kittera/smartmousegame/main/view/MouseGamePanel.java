@@ -1,35 +1,65 @@
 package com.kittera.smartmousegame.main.view;
 
+import com.kittera.smartmousegame.main.controller.SmartMouseStateManager;
+import com.kittera.smartmousegame.main.model.Cheese;
+import com.kittera.smartmousegame.main.model.Directions;
+import com.kittera.smartmousegame.main.model.SmartMouseActors;
+import com.kittera.smartmousegame.main.model.SmartMouseEntity;
 import guiResources.KButton;
 import guiResources.KLabel;
 import guiResources.KPanel;
 import guiResources.KRadioButton;
-import com.kittera.smartmousegame.main.controller.SmartMouseStateManager;
-import com.kittera.smartmousegame.main.model.*;
 
-import javax.swing.*;
+import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import static com.kittera.smartmousegame.main.view.MouseGamePanel.CONTROLS_HEIGHT;
-import static guiResources.KGUIRepo.*;
 import static com.kittera.smartmousegame.main.view.MouseGamePanel.MOVE_BUTTON_SIDES;
+import static guiResources.KGUIRepo.*;
 
 public class MouseGamePanel extends KPanel {
+   private JPanel currentSplash;
    
    protected static final int CONTROLS_HEIGHT = 40;
    protected static final int MOVE_BUTTON_SIDES = 30;
    protected final SmartMouseStateManager GAME_STATE;
+   private final GameDisplayPanel boardPanel;
+   private final Image VICTORY_IMG;
+   private final Image DEFEAT_IMG;
+   private final Timer waitForReset = new Timer(30, e -> repaint());
    
    public MouseGamePanel(SmartMouseStateManager stateManager, MouseMap theBoard) {
       setLayout(new BorderLayout());
       setBackground(DARK_PURPLE);
+      currentSplash = null;
+      boardPanel = new GameDisplayPanel(theBoard);
       GAME_STATE = stateManager;
       GAME_STATE.registerDisplayPanel(this);
       add(new NorthInterfacePanel(GAME_STATE), BorderLayout.NORTH);
-      add(new GameDisplayPanel(theBoard),      BorderLayout.CENTER);
+      add(boardPanel, BorderLayout.CENTER);
       add(new SouthInterfacePanel(GAME_STATE), BorderLayout.SOUTH);
       addAction("UP",    Directions.NORTH);
       addAction("LEFT",  Directions.WEST);
@@ -39,6 +69,14 @@ public class MouseGamePanel extends KPanel {
       addAction("A",     Directions.WEST);
       addAction("S",     Directions.SOUTH);
       addAction("D",     Directions.EAST);
+   
+      try {
+         VICTORY_IMG = ImageIO.read(new File(IMAGEPATH + "Victory.png"));
+         DEFEAT_IMG  = ImageIO.read(new File(IMAGEPATH + "GameOver.png"));
+      } catch (IOException stop) {
+         throw new IllegalArgumentException("Splash sprite not found at: " + IMAGEPATH);
+      }
+      
    }
    
    public void addAction(String name, Directions dir) {
@@ -49,6 +87,26 @@ public class MouseGamePanel extends KPanel {
       inputMap.put(pressedKeyStroke, name);
       this.getActionMap().put(name, action);
    }
+   
+   public void showSplashScreen() {
+      waitForReset.start();
+      remove(boardPanel);
+      if (GAME_STATE.isVictory())  currentSplash = new SplashPanel(VICTORY_IMG);
+      if (GAME_STATE.isGameOver()) currentSplash = new SplashPanel(DEFEAT_IMG);
+      add(currentSplash);
+      revalidate();
+   }
+   
+   public void hideSplashScreen() {
+      waitForReset.stop();
+      remove(currentSplash);
+      add(boardPanel);
+      revalidate();
+      repaint();
+      currentSplash = null;
+   }
+   
+   
    
    private static class MoveAction extends AbstractAction implements ActionListener {
       
@@ -61,6 +119,28 @@ public class MouseGamePanel extends KPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
          SmartMouseActors.MOUSE.move(direction);
+      }
+   }
+   
+   private static class SplashPanel extends KPanel {
+      
+      private final Image splash;
+      
+      public SplashPanel(Image img) {
+         splash = img;
+         setBackground(Color.BLACK);
+      }
+   
+      public void paintComponent(Graphics g) {
+         super.paintComponent(g);
+         drawSplash(g, splash);
+      }
+   
+      private void drawSplash(Graphics g, Image splash) {
+         Graphics2D g2 = (Graphics2D) g;
+         int startX =  (getWidth() / 2) - (splash.getWidth(null) / 2);
+         int startY = (getHeight() / 2) - (splash.getHeight(null) / 2);
+         g2.drawImage(splash, startX, startY, this);
       }
    }
 }
@@ -141,6 +221,9 @@ class GameDisplayPanel extends KPanel {
       setBackground(Color.DARK_GRAY);
       setPreferredSize(boardSize);
    
+      
+      
+   
       //populate panels here
       setLayout(new GridLayout(cellRows, cellCols, cellGap ,cellGap));
       for (int row = 0 ; row < cellRows ; row++) {
@@ -149,6 +232,8 @@ class GameDisplayPanel extends KPanel {
          }
       }
    }
+   
+   
 }
 
 //////////////////////////////////////////
